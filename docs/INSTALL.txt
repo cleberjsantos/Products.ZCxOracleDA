@@ -1,0 +1,18 @@
+Installation
+------------
+
+To enable this product in a buildout-based installation:
+
+1. Edit your buildout.cfg and add ``Products.ZCxOracleDA`` to the list of eggs to
+   install ::
+
+    [buildout]
+    ...
+    eggs =
+        Products.ZCxOracleDA
+
+After updating the configuration you need to run ''bin/buildout'', which will
+take care of updating your system.
+
+Go to the 'ZMI' page in a Zope and click on the select box next to
+''Products.ZCxOracleDA'' and click the 'Add' button.

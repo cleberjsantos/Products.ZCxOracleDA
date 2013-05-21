@@ -1,0 +1,15 @@
+Credits
+-------
+
+``Products.ZCxOracleDA`` would not have been possible without the contribution of
+the following people:
+
+- Cleber J Santos
+
+You can find an updated list of package contributors on `BitBucket`_.
+
+Development of this package was sponsored by `Simples Consultoria`_.
+
+
+.. _`BitBucket`: https://bitbucket.org/simplesconsultoria/products.zsqlrelayda
+.. _`Simples Consultoria`: http://www.simplesconsultoria.com.br
