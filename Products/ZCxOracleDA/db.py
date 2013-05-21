@@ -55,7 +55,7 @@ class DB(TM):
                 homogeneous=True)
 
             self.pool.timeout = 50
-            self.con = pool.acquire()
+            self.con = self.pool.acquire()
 
         except cx_Oracle.DatabaseError, exception:
             error, = exception
@@ -83,7 +83,7 @@ class DB(TM):
                     # Otherwise pool.busy and pool.opened
                     # will report wrong counters.
                     #
-                    pool.drop(self.con)
+                    self.pool.drop(self.con)
                     raise self.Database_Error, ('Session droped from the pool... <code>%s</code> More details http://ora-%s.ora-code.com/') %(error.message, error.code)
             else:
                 # if you're done with procession you can return session
