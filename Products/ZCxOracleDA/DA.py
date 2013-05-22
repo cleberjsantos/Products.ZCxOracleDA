@@ -51,9 +51,6 @@ class Connection(DABase.Connection):
         """
         return DB
 
-    def table_info(self):
-        return self._v_database_connection.table_info()
-
     def edit(self, title, connection_string, check=1):
         self.title = title
         self.connection_string = connection_string
