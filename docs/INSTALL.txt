@@ -11,11 +11,20 @@ To enable this product in a buildout-based installation:
     eggs =
         Products.ZCxOracleDA
 
-After updating the configuration you need to run ''bin/buildout'', which will
+After updating the configuration you need to run ``bin/buildout``, which will
 take care of updating your system.
 
-Go to the 'ZMI' page in a Zope and click on the select box next to
-''Products.ZCxOracleDA'' and click the 'Add' button (as you would create some DA instance).
+Go to the ``ZMI`` page in a Zope and click on the select box next to
+``Z CxOracle Database Connection`` and click the ``Add`` button (as you would create some DA instance).
 
 After creating the instance, you should see the connector DA. When creating a
 new ZSQL method you should be able to use this DA instance as connection id.
+
+
+* a ZCxOracleDA instance can be used as a standard DA together with    ZSQL methods.  
+
+**WARNING: YOU SHOULD NOT USE ZSQL METHODS AND MAPPERS WITHIN THE SAME REQUEST!!!**
+
+Mappers/Sessions and Connections (for ZSQL methods) are totally independent 
+and have their own transaction. Mixing both would result in two distinct
+transactions leading to unpredictable results.
