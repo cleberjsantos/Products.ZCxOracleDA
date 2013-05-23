@@ -15,4 +15,7 @@ After updating the configuration you need to run ''bin/buildout'', which will
 take care of updating your system.
 
 Go to the 'ZMI' page in a Zope and click on the select box next to
-''Products.ZCxOracleDA'' and click the 'Add' button.
+''Products.ZCxOracleDA'' and click the 'Add' button (as you would create some DA instance).
+
+After creating the instance, you should see the connector DA. When creating a
+new ZSQL method you should be able to use this DA instance as connection id.
