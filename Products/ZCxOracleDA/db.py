@@ -6,14 +6,15 @@ import sys
 from string import strip, split
 import Shared.DC.ZRDB.THUNK
 
+
 class DB(Shared.DC.ZRDB.THUNK.THUNKED_TM):
 
     Database_Error = cx_Oracle.DatabaseError
 
     def __init__(self, connection):
-        info = str(connection[ : int( connection.find('@'))]).split(':')
-        self.tns = str(connection[ int(connection.find('@')+1): ])
-        if len(info)==2:
+        info = str(connection[:int( connection.find('@'))]).split(':')
+        self.tns = str(connection[int(connection.find('@')+1): ])
+        if len(info) == 2:
             self.user = info[0]
             self.password = info[1]
         else:
@@ -34,7 +35,6 @@ class DB(Shared.DC.ZRDB.THUNK.THUNKED_TM):
             # docs, if pool is not homogeneous then different
             # authentication can be used for each connection
             # "pulled" from the pool)
-             
             self.pool = cx_Oracle.SessionPool(
                 user=self.user,
                 password=self.password,
@@ -81,21 +81,20 @@ class DB(Shared.DC.ZRDB.THUNK.THUNKED_TM):
 
     def str(self, v, StringType=type('')):
         if v is None: return ''
-        r=str(v)
+        r = str(v)
         if r[-1:]=='L' and type(v) is not StringType: r=r[:-1]
         return r
 
-
-    def query(self,query_string, max_rows=99999):
+    def query(self, query_string, max_rows=99999):
         self._begin()
         c = self.cur
-        queries=filter(None, map(strip,split(query_string, '\0')))
+        queries = filter(None, map(strip, split(query_string, '\0')))
         if not queries: raise 'Query Error', 'empty query'
-        desc=None
-        result=[]
+        desc = None
+        result = []
         for qs in queries:
             c.execute(qs)
-            d=c.description
+            d = c.description
             if d is None: continue
             if desc is None: desc=d
             elif d != desc:
@@ -112,11 +111,11 @@ class DB(Shared.DC.ZRDB.THUNK.THUNKED_TM):
                 result = c.fetchall()
 
         self._finish()
-        if desc is None: return (),()
+        if desc is None: return (), ()
 
-        items=[]
+        items = []
         for name, type, width, ds, p, scale, null_ok in desc:
-            if type=='NUMBER':
+            if type == 'NUMBER':
                 if scale==0: type='i'
                 else: type='n'
             elif type=='DATE':
@@ -127,7 +126,7 @@ class DB(Shared.DC.ZRDB.THUNK.THUNKED_TM):
                 'type': type,
                 'width': width,
                 'null': null_ok,
-                })
+            })
 
         return items, result
 

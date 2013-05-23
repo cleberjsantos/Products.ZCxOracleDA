@@ -18,12 +18,12 @@ manage_addZCxOracleConnectionForm = Globals.HTMLFile('dtml/connectionAdd', globa
 
 
 def manage_addZCxOracleConnection(self, id, title,
-                                connection_string,
-                                check=None,
-                                REQUEST=None):
+                                  connection_string,
+                                  check=None,
+                                  REQUEST=None):
     """Add a DB connection to a folder"""
     self._setObject(id,
-           Connection(id, title, connection_string, check))
+                    Connection(id, title, connection_string, check))
     if REQUEST is not None:
         return self.manage_main(self, REQUEST)
 
@@ -43,7 +43,7 @@ class Connection(DABase.Connection):
     _v_connected = ''
 
     def __init__(self, id, title, connection_string, check=None):
-        self.id=str(id)
+        self.id = str(id)
         self.edit(title, connection_string, check)
 
     def factory(self):
@@ -87,6 +87,6 @@ misc_ = {'conn': ImageFile(
 )}
 
 for icon in ('table', 'view', 'stable', 'what',
-        'field', 'text', 'bin', 'int', 'float',
-        'date', 'time', 'datetime'):
+             'field', 'text', 'bin', 'int', 'float',
+             'date', 'time', 'datetime'):
     misc_[icon] = ImageFile(os.path.join('icons', '%s.gif') % icon, globals())
