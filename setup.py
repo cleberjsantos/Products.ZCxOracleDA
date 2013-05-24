@@ -39,6 +39,7 @@ setup(name='Products.ZCxOracleDA',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'Products.ZSQLMethods',
           'cx_Oracle',
       ],
       extras_require={
