@@ -9,7 +9,6 @@ env:
 install:
   - mkdir -p buildout-cache/eggs
   - mkdir -p buildout-cache/downloads
-  - pip install . --use-mirrors
   - python bootstrap.py
   - bin/buildout -N -t 3
 script: bin/$TARGET
