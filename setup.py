@@ -42,7 +42,8 @@ setup(name='Products.ZCxOracleDA',
           'Products.ZSQLMethods',
           'cx_Oracle',
       ],
+      test_suite='Products.ZCxOracleDA.tests.test_suite',
       extras_require={
-        'test': ['Zope2'],
+        'test': ['Zope2', 'zope.testing', 'zope.component'],
         },
       )

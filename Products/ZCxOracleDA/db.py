@@ -5,6 +5,10 @@ import cx_Oracle
 import sys
 from string import strip, split
 import Shared.DC.ZRDB.THUNK
+from config import (CX_POOL_SESSION_MIN,
+                    CX_POOL_SESSION_MAX,
+                    CX_POOL_SESSION_INCREMENT,
+                    CX_POOL_CONNECT_TIMEOUT)
 
 
 class DB(Shared.DC.ZRDB.THUNK.THUNKED_TM):
@@ -39,15 +43,15 @@ class DB(Shared.DC.ZRDB.THUNK.THUNKED_TM):
                 user=self.user,
                 password=self.password,
                 dsn=self.tns,
-                min=5,
-                max=10,
-                increment=1,
+                min=CX_POOL_SESSION_MIN,
+                max=CX_POOL_SESSION_MAX,
+                increment=CX_POOL_SESSION_INCREMENT,
                 connectiontype=cx_Oracle.Connection,
                 threaded=False,
                 getmode=cx_Oracle.SPOOL_ATTRVAL_NOWAIT,
                 homogeneous=True)
 
-            self.pool.timeout = 50
+            self.pool.timeout = CX_POOL_CONNECT_TIMOUT
             self.con = self.pool.acquire()
 
         except cx_Oracle.DatabaseError, exception:

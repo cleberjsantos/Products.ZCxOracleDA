@@ -2,6 +2,9 @@
 *.mo
 *.pyc
 *~
+.*.kate-swp
+.coverage
+.DS_Store
 .installed.cfg
 .mr.developer.cfg
 .project
@@ -13,10 +16,17 @@ develop-eggs/
 dist/
 downloads/
 eggs/
+htmlcov/
 include/
 lib/
+library-settings.txt
+log.html
 local.cfg
 Makefile
+node_modules
+output.xml
+report.html
+selenium*
 parts/
 Products.ZCxOracleDA.*
 var/
