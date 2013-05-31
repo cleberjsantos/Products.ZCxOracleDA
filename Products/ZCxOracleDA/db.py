@@ -51,7 +51,7 @@ class DB(Shared.DC.ZRDB.THUNK.THUNKED_TM):
                 getmode=cx_Oracle.SPOOL_ATTRVAL_NOWAIT,
                 homogeneous=True)
 
-            self.pool.timeout = CX_POOL_CONNECT_TIMOUT
+            self.pool.timeout = CX_POOL_CONNECT_TIMEOUT
             self.con = self.pool.acquire()
 
         except cx_Oracle.DatabaseError, exception:
