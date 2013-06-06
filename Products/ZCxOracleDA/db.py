@@ -66,7 +66,9 @@ class DB(Shared.DC.ZRDB.THUNK.THUNKED_TM):
                 # Make sure you intrument your code with clientinfo,
                 # module and action attributes - this is especially
                 # important if you're using SessionPool.
-                self.con.clientinfo = '%s %s' % ('python', str(sys.version))
+                # TODO. If you uncomment this line, the error occurs
+                # ORA-01722: invalid number (http://ora-ora-01722.ora-code.com/)
+                # self.con.clientinfo = '%s %s' % ('python', str(sys.version))
                 self.con.module = 'Z CxOracleDA SessionPool'
                 self.cur = self.con.cursor()
             except cx_Oracle.DatabaseError, exception:
