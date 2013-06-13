@@ -143,4 +143,4 @@ class DB(Shared.DC.ZRDB.THUNK.THUNKED_TM):
         self.con.commit()
 
     def _abort(self):
-        con.db.rollback()
+        self.con.rollback()
