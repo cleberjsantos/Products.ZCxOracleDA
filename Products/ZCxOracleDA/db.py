@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import cx_Oracle
-
+import os
 import sys
 from string import strip, split
 import Shared.DC.ZRDB.THUNK
@@ -25,6 +25,11 @@ class DB(Shared.DC.ZRDB.THUNK.THUNKED_TM):
             raise self.Database_Error, ('Invalid connection string, <code>%s</code>')
 
         try:
+            os.environ['INTANCE_HOME'] = '{0}'.format(os.environ.get('ZOPE_HOME', os.environ.get('OLDPWD', os.environ.get('INSTANCE_HOME','') ) ))
+            os.environ['ORACLE_HOME'] = '{0}'.format(os.environ.get('ORACLE_HOME', ''))
+            os.environ['TNS_ADMIN'] = '{0}/etc'.format(os.environ.get('INSTANCE_HOME',''))
+            os.environ['NLS_DATE_FORMAT'] = '{0}'.format(os.environ.get('NLS_DATE_FORMAT','DD/MM/YYYY')) # Default value Derived from NLS_TERRITORY
+            os.environ['NLS_LANG'] = '{0}'.format(os.environ.get('NLS_LANG','BRAZILIAN PORTUGUESE_BRAZIL.UTF8'))
             # Let's create session pool with
             # five initial sessions (min=5),
             # limit maximum session to 10,
