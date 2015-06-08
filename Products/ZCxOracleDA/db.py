@@ -18,6 +18,10 @@ class DB(Shared.DC.ZRDB.THUNK.THUNKED_TM):
     def __init__(self, connection):
         info = str(connection[:int( connection.find('@'))]).split(':')
         self.tns = str(connection[int(connection.find('@')+1): ])
+        os.environ['ORACLE_HOME'] = '{0}'.format(os.environ.get('ORACLE_HOME', ''))
+        os.environ['TNS_ADMIN'] = '{0}/etc'.format(os.environ.get('ZOPE', os.environ.get('ZOPE_HOME', os.environ.get('OLDPWD', os.environ.get('INSTANCE_HOME','') ) )))
+        os.environ['NLS_DATE_FORMAT'] = '{0}'.format(os.environ.get('NLS_DATE_FORMAT','DD/MM/YYYY')) # Default value Derived from NLS_TERRITORY
+        os.environ['NLS_LANG'] = '{0}'.format(os.environ.get('NLS_LANG','BRAZILIAN PORTUGUESE_BRAZIL.UTF8'))
         if len(info) == 2:
             self.user = info[0]
             self.password = info[1]
@@ -25,11 +29,6 @@ class DB(Shared.DC.ZRDB.THUNK.THUNKED_TM):
             raise self.Database_Error, ('Invalid connection string, <code>%s</code>')
 
         try:
-            os.environ['INTANCE_HOME'] = '{0}'.format(os.environ.get('ZOPE_HOME', os.environ.get('OLDPWD', os.environ.get('INSTANCE_HOME','') ) ))
-            os.environ['ORACLE_HOME'] = '{0}'.format(os.environ.get('ORACLE_HOME', ''))
-            os.environ['TNS_ADMIN'] = '{0}/etc'.format(os.environ.get('INSTANCE_HOME',''))
-            os.environ['NLS_DATE_FORMAT'] = '{0}'.format(os.environ.get('NLS_DATE_FORMAT','DD/MM/YYYY')) # Default value Derived from NLS_TERRITORY
-            os.environ['NLS_LANG'] = '{0}'.format(os.environ.get('NLS_LANG','BRAZILIAN PORTUGUESE_BRAZIL.UTF8'))
             # Let's create session pool with
             # five initial sessions (min=5),
             # limit maximum session to 10,
@@ -66,29 +65,33 @@ class DB(Shared.DC.ZRDB.THUNK.THUNKED_TM):
             if error.code == tns_notresolve:
                 raise self.Database_Error, ('<code>%s</code> More details http://ora-%s.ora-code.com/') %(error.message, error.code)
 
-        if self.con:
-            try:
-                # Make sure you intrument your code with clientinfo,
-                # module and action attributes - this is especially
-                # important if you're using SessionPool.
-                # TODO. If you uncomment this line, the error occurs
-                # ORA-01722: invalid number (http://ora-ora-01722.ora-code.com/)
-                # self.con.clientinfo = '%s %s' % ('python', str(sys.version))
-                self.con.module = 'Z CxOracleDA SessionPool'
-                self.cur = self.con.cursor()
-            except cx_Oracle.DatabaseError, exception:
-                error, = exception
-                # check if session was killed (ORA-00028)
-                session_killed = 28
-                if error.code == session_killed:
-                    #
-                    # drop session from the pool in case
-                    # your session has been killed!
-                    # Otherwise pool.busy and pool.opened
-                    # will report wrong counters.
-                    #
-                    self.pool.drop(self.con)
-                    raise self.Database_Error, ('Session droped from the pool... <code>%s</code> More details http://ora-%s.ora-code.com/') %(error.message, error.code)
+        try:
+            if self.con:
+                try:
+                    # Make sure you intrument your code with clientinfo,
+                    # module and action attributes - this is especially
+                    # important if you're using SessionPool.
+                    # TODO. If you uncomment this line, the error occurs
+                    # ORA-01722: invalid number (http://ora-ora-01722.ora-code.com/)
+                    # self.con.clientinfo = '%s %s' % ('python', str(sys.version))
+                    self.con.module = 'Z CxOracleDA SessionPool'
+                    self.cur = self.con.cursor()
+                except cx_Oracle.DatabaseError, exception:
+                    error, = exception
+                    # check if session was killed (ORA-00028)
+                    session_killed = 28
+                    if error.code == session_killed:
+                        #
+                        # drop session from the pool in case
+                        # your session has been killed!
+                        # Otherwise pool.busy and pool.opened
+                        # will report wrong counters.
+                        #
+                        self.pool.drop(self.con)
+                        raise self.Database_Error, ('Session droped from the pool... <code>%s</code> More details http://ora-%s.ora-code.com/') %(error.message, error.code)
+        except:
+            print 'Database Down'
+            raise
 
     def str(self, v, StringType=type('')):
         if v is None: return ''
