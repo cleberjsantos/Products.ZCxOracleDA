@@ -142,11 +142,11 @@ class DB(TM):
             # !!!! /Fix bad windows return carriage
             qs = qs.replace("\r\n", "\n")
 
-            logger.info('SQL Query: %s' % qs)
+            #logger.info('SQL Query: %s' % qs)
 
             try:
                 if query_data:
-                    logger.info("Query data used: %s" % query_data)
+                    #logger.info("Query data used: %s" % query_data)
                     rs = c.execute(qs, query_data)
                 else:
                     rs = c.execute(qs)
