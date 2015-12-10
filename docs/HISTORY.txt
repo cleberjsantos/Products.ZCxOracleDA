@@ -1,7 +1,20 @@
 Changelog
 ---------
 
-1.0 (unreleased)
-^^^^^^^^^^^^^^^^^^^
+1.0a1 (unreleased)
+^^^^^^^^^^^^^^^^^^
+
+* Checking if connection's alive for CONN_TYPE type pool, has been added. [cleberjsantos]
+
+* Thread controll has been added [cleberjsantos]
+
+* New environment vars (CX_POOL_THREADED [False|True] and CONN_TYPE [POOL|NOPOOL] ) added [cleberjsantos]
+
+* Performance applied and code has been refactored [cleberjsantos]
+
+* Added bind variables support by implementing .ZORA methods, like .ZSQL
+  IE: Rename your .zsql to .zora and ou will benefit from bind variables syntax [cleberjsantos]
+
+* Merging with ``ZcxOracleDA`` from google code https://code.google.com/p/z-cxoracle-da [cleberjsantos]
 
 * Initial release. [cleberjsantos]
